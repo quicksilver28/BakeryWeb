@@ -39,6 +39,9 @@
         </script>
     </head>
     <body>
+        <% if (session.getAttribute("admin") != null) {
+                response.sendRedirect(request.getContextPath() + "/add_products.jsp");
+            }%>
         <%@include file="header.jsp"%>
         <div class="container-fluid">
             <div class="row justify-content-center">

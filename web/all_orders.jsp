@@ -9,12 +9,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NanNan Bakery</title>
+        <title>NanNan's Bakery</title>
     </head>
     <body style="background-image: url('resources/images/under_construction.jpg');">
+        <%
+            response.addHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setDateHeader("Expires", 0);
+        %>
         <% if (session.getAttribute("admin") == null) {
-            response.sendRedirect(request.getContextPath() + "/admin_login.jsp");
-        }%>
+                response.sendRedirect(request.getContextPath() + "/admin_login.jsp");
+            }%>
         <div class='container'>
             <h1>Under Construction!</h1>
             <a href="add_product.jsp">Admin Home</a>

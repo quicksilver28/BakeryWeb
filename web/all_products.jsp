@@ -31,9 +31,14 @@
         </script>
     </head>
     <body style="background-image: url('resources/images/bakedbg.jpg');">
+        <%
+            response.addHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setDateHeader("Expires", 0);
+        %>
         <% if (session.getAttribute("admin") == null) {
                 response.sendRedirect(request.getContextPath() + "/admin_login.jsp");
-        }%>
+            }%>
         <%@include file="header_admin.jsp"%>
         <div class="container-fluid padding">
             <div class="row padding">

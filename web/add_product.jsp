@@ -14,9 +14,14 @@
         <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
     </head>
     <body>
+        <%
+            response.addHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setDateHeader("Expires", 0);
+        %>
         <% if (session.getAttribute("admin") == null) {
-            response.sendRedirect(request.getContextPath() + "/admin_login.jsp");
-        }%>
+                response.sendRedirect(request.getContextPath() + "/admin_login.jsp");
+            }%>
         <%@ include file="header_admin.jsp"%>
         <div class="container-fluid">
             <div class="row justify-content-center">

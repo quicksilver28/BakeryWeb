@@ -13,9 +13,9 @@ public class AdminLogout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        out.println("YEs we logging out");
+        //out.println("YEs we logging out");
         HttpSession session = request.getSession();
-        if(session!=null && session.getAttribute("admin").equals("true")){
+        if(session.getAttribute("admin") != null && session.getAttribute("admin").equals("true")){
             session.removeAttribute("admin");
             session.invalidate();
             session = request.getSession();
