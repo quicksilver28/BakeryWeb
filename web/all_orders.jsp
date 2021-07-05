@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NanNan's Bakery</title>
+        <title>NanNan Bakery</title>
     </head>
     <body style="background-image: url('resources/images/under_construction.jpg');">
         <% if (session.getAttribute("admin") == null) {
