@@ -26,7 +26,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>productDisplay</servlet-name>
-        <url-pattern>/ProductDisplay</url-pattern>
+        <url-pattern>/product_display</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>productUpdate</servlet-name>
@@ -58,7 +58,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>adminLogout</servlet-name>
-        <url-pattern>/AdminLogout</url-pattern>
+        <url-pattern>/admin_logout</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>addToCart</servlet-name>

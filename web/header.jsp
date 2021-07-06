@@ -13,7 +13,7 @@
                             <a class="nav-link" href="<%=request.getContextPath()%>">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ProductDisplay">Products</a>
+                            <a class="nav-link" href="product_display">Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="mailto:nannans.bakery@gmail.com">Contact Us</a>

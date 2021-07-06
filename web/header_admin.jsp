@@ -13,13 +13,13 @@
                             <a class="nav-link" href="add_product.jsp">Add Product</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ProductDisplay">View Products</a>
+                            <a class="nav-link" href="product_display">View Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="all_orders.jsp">View Orders</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="AdminLogout"><i class="fas fa-sign-out-alt"></i></a>
+                            <a class="nav-link" href="admin_logout"><i class="fas fa-sign-out-alt"></i></a>
                         </li>
                     </ul>
                 </div>
