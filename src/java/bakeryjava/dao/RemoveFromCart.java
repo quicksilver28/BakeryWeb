@@ -43,8 +43,10 @@ public class RemoveFromCart extends HttpServlet {
             out.println(entry.getKey() + " " + entry.getValue().getValue());
         }*/
         //req.getRequestDispatcher("ViewCart").forward(req, resp);
-        if(cart.isEmpty())
-            resp.sendRedirect(req.getContextPath() + "/ProductDisplay");
+        if(cart.isEmpty()){
+            session.removeAttribute("cart");
+            resp.sendRedirect(req.getContextPath() + "/product_display");
+        }
         else
             resp.sendRedirect(req.getContextPath() + "/ViewCart");
     }

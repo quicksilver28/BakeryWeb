@@ -21,19 +21,26 @@ public class ViewCart extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        
         PrintWriter out = resp.getWriter();
-
+        
         HttpSession session = req.getSession();
         
+        String page = "/view_cart.jsp";
+        
+        if (session.getAttribute("cart") == null){
+            page = "/product_display";
+            //resp.sendRedirect(req.getContextPath() + "/product_display");
+        }
         //retrieved list of <pid, quantity>
         Map<Integer, Pair> cart = (ConcurrentHashMap<Integer, Pair>) session.getAttribute("cart");
-        if (cart == null)
-            resp.sendRedirect(req.getContextPath() + "/ProductDisplay");
-        else if(cart.entrySet() == null)
-            resp.sendRedirect(req.getContextPath() + "/ProductDisplay");
+        if(cart == null || cart.entrySet() == null){
+            page = "/product_display";
+            //resp.sendRedirect(req.getContextPath() + "/product_display");
+        }
         session.setAttribute("cart", cart);
-        resp.sendRedirect(req.getContextPath() + "/view_cart.jsp");
+        resp.sendRedirect(req.getContextPath() + page);
+        //resp.sendRedirect(req.getContextPath() + "/view_cart.jsp");
     }
 }
 

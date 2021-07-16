@@ -66,6 +66,6 @@ public class AddToCart extends HttpServlet {
             out.println(entry.getKey() + " " + entry.getValue().getValue());
         }*/
         //out.println(session.getId());
-        resp.sendRedirect(req.getContextPath() + "/ProductDisplay");
+        resp.sendRedirect(req.getContextPath() + "/product_display");
     }
 }
