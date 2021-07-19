@@ -97,11 +97,11 @@
                 <div class="col-lg-8"><button type="submit" class="btn btn-primary mx-auto d-block" onClick="checkout()">Checkout</button></div>
                 <%    } else {
                             //out.println("cart entries khali hain");
-                            response.sendRedirect(request.getContextPath() + "/ProductDisplay");
+                            response.sendRedirect(request.getContextPath() + "/product_display");
                         }
                     } else {
                         //out.println("cart khali hai");
-                        response.sendRedirect(request.getContextPath() + "/ProductDisplay");
+                        response.sendRedirect(request.getContextPath() + "/product_display");
                     }%>
             </div>
         </div>

@@ -35,7 +35,7 @@ public class ProductUpdate extends HttpServlet{
             ps.executeUpdate();
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Product updated.');");
-            out.println("location='ProductDisplay';");
+            out.println("location='product_display';");
             out.println("</script>");
         }
         catch(Exception e){

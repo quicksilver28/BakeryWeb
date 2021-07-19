@@ -79,12 +79,12 @@ public class PlaceOrder extends HttpServlet {
     }
 
     public int addOrder(Order order) throws Exception, SQLException {
-        PreparedStatement ps = conn.prepareStatement("insert into orders(createdate, status, cid, total) values(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        java.sql.Timestamp ct = new java.sql.Timestamp(System.currentTimeMillis());
-        ps.setTimestamp(1, ct);
-        ps.setInt(2, order.getStatus());
-        ps.setInt(3, order.getCid());
-        ps.setFloat(4, order.getTotal());
+        PreparedStatement ps = conn.prepareStatement("insert into orders(status, cid, total) values(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        //java.sql.Timestamp ct = new java.sql.Timestamp(System.currentTimeMillis());
+        //ps.setTimestamp(1, ct);
+        ps.setInt(1, order.getStatus());
+        ps.setInt(2, order.getCid());
+        ps.setFloat(3, order.getTotal());
         int rows = ps.executeUpdate();
         if (rows == 1) {
             ResultSet rs = ps.getGeneratedKeys();
@@ -130,16 +130,16 @@ public class PlaceOrder extends HttpServlet {
         Map<Integer, Pair> cart = (ConcurrentHashMap<Integer, Pair>) session.getAttribute("cart");
         if (cart == null) {
             out.println("cart is null");
-            //response.sendRedirect(request.getContextPath() + "/ProductDisplay");
+            //response.sendRedirect(request.getContextPath() + "/product_display");
         }
         try {
             conn = DBConn.getcon();
             Customer customer = new Customer(request.getParameter("fname"), request.getParameter("lname"), request.getParameter("email"), request.getParameter("phone"));
             int cid = addCustomer(customer);
             //out.println(cid);
-            if (cid == -1) {
+            /*if (cid == -1) {
                 throw new Exception();
-            }
+            }*/
             Address address = new Address(request.getParameter("line1"), request.getParameter("line2"), request.getParameter("zipcode"), cid);
             int aid = addAddress(address);
             //out.println(aid);

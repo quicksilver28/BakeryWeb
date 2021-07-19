@@ -22,7 +22,7 @@ public class Order {
     }
     
     public Order(int oid, int cid, int status, float total, String createdate) {
-        this.oid = 0;
+        this.oid = oid;
         this.cid = cid;
         this.status = status;
         this.total = total;
@@ -40,7 +40,7 @@ public class Order {
     }
     
     public Order(int cid, int status, float total, String createdate, String shipdate) {
-        this.oid = -1;
+        this.oid = 0;
         this.cid = cid;
         this.status = status;
         this.total = total;
@@ -105,5 +105,4 @@ public class Order {
     public void setShipDate(Date shipdate){
         this.shipdate = getStrDateSQL(shipdate);
     }
-    
 }

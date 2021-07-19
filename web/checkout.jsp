@@ -56,7 +56,7 @@
                         <button type="submit" name="action" value="signin" class="btn btn-primary mx-auto d-block">Place Order</button>
                     </form>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     Order Summary
                     <% Map<Integer, Pair> cart = (ConcurrentHashMap<Integer, Pair>) session.getAttribute("cart");
                         float total = 0.0f;
@@ -75,11 +75,11 @@
                     <%}
                             } else {
                                 //out.println("cart entries khali hain");
-                                response.sendRedirect(request.getContextPath() + "/ProductDisplay");
+                                response.sendRedirect(request.getContextPath() + "/product_display");
                             }
                         } else {
                             //out.println("cart khali hai");
-                            response.sendRedirect(request.getContextPath() + "/ProductDisplay");
+                            response.sendRedirect(request.getContextPath() + "/product_display");
                         }
                     %>
                     <hr>
