@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bakeryjava.dao;
 
 import bakeryjava.bean.Address;
@@ -17,10 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,11 +34,6 @@ public class PlaceOrder extends HttpServlet {
     Map<Integer, Pair> cart;
     List<Pair<Integer, Integer>> pid_qty;
     PrintWriter out;
-
-    public String getStrDateSQL(Date date) {
-        SimpleDateFormat sf = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
-        return sf.format(date);
-    }
 
     public int addCustomer(Customer customer) throws Exception, SQLException {
         PreparedStatement ps = conn.prepareStatement("insert into customer(fname, lname, email, phone) values(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -78,13 +65,12 @@ public class PlaceOrder extends HttpServlet {
         throw new Exception("address id mismatch");
     }
 
-    public int addOrder(Order order) throws Exception, SQLException {
-        PreparedStatement ps = conn.prepareStatement("insert into orders(status, cid, total) values(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        //java.sql.Timestamp ct = new java.sql.Timestamp(System.currentTimeMillis());
-        //ps.setTimestamp(1, ct);
+    public int addOrder(Order order, int diff) throws Exception, SQLException {
+        PreparedStatement ps = conn.prepareStatement("insert into orders(status, cid, total, createdate, shipdate) values(?,?,?,NOW(), DATE_ADD(NOW(), INTERVAL ? HOUR))", Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, order.getStatus());
         ps.setInt(2, order.getCid());
         ps.setFloat(3, order.getTotal());
+        ps.setInt(4, diff);
         int rows = ps.executeUpdate();
         if (rows == 1) {
             ResultSet rs = ps.getGeneratedKeys();
@@ -125,28 +111,32 @@ public class PlaceOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        out = response.getWriter();
+        String delivery = request.getParameter("deliverytime");
+        int delivery_time = 0;
+        if(delivery == null){
+            delivery_time = 2;
+        }
+        else{
+            delivery_time = Integer.valueOf(delivery);
+        }
         HttpSession session = request.getSession();
         Map<Integer, Pair> cart = (ConcurrentHashMap<Integer, Pair>) session.getAttribute("cart");
         if (cart == null) {
-            out.println("cart is null");
-            //response.sendRedirect(request.getContextPath() + "/product_display");
+            //out.println("cart is null");
+            response.sendRedirect(request.getContextPath() + "/product_display");
         }
         try {
             conn = DBConn.getcon();
             Customer customer = new Customer(request.getParameter("fname"), request.getParameter("lname"), request.getParameter("email"), request.getParameter("phone"));
             int cid = addCustomer(customer);
             //out.println(cid);
-            /*if (cid == -1) {
-                throw new Exception();
-            }*/
             Address address = new Address(request.getParameter("line1"), request.getParameter("line2"), request.getParameter("zipcode"), cid);
             int aid = addAddress(address);
             //out.println(aid);
             float total = extractCart(cart);
             //out.println(total);
-            Order order = new Order(cid, 1, total, getStrDateSQL(new java.util.Date())); //setOrder(cid, total);
-            int oid = addOrder(order);
+            Order order = new Order(cid, 1, total); 
+            int oid = addOrder(order, delivery_time);
             //out.println(oid);
             boolean isMapped = mapOrderProduct(oid);
             if (isMapped) {

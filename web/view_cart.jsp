@@ -36,7 +36,14 @@
             }
         </style>
         <script>
+
             function checkout() {
+                /*var d = new Date();
+                var n = d.getHours() + 1;
+                if (n < 10 || n > 25) {
+                    alert("Delivery orders can be placed between 10pm and 6pm only.");
+                }
+                else*/
                 location = '/bakeryweb/checkout.jsp';
             }
             function removeFromCart(pid) {
@@ -74,7 +81,7 @@
                                 int quantity = (Integer) product_set.getValue();
                                 Product product = (Product) product_set.getKey();
                                 total += product.getPrice() * quantity;
-                                
+
                 %>
                 <div class="col-lg-8" style="background-color:#fff; opacity:0.8;">
                     <div class="col"><i class="far fa-stop-circle" id="type_color_<%=String.valueOf(product.getType())%>"></i></div>
