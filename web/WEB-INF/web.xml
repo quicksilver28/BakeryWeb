@@ -8,6 +8,10 @@
         <servlet-name>placeOrder</servlet-name>
         <servlet-class>bakeryjava.dao.PlaceOrder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderDisplay</servlet-name>
+        <servlet-class>bakeryjava.dao.OrderDisplay</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>homePage</servlet-name>
         <url-pattern>/bakeryweb</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>placeOrder</servlet-name>
         <url-pattern>/PlaceOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDisplay</servlet-name>
+        <url-pattern>/order_display</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

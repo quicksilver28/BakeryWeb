@@ -66,15 +66,20 @@ public class PlaceOrder extends HttpServlet {
     }
 
     public int addOrder(Order order, int diff) throws Exception, SQLException {
-        PreparedStatement ps = conn.prepareStatement("insert into orders(status, cid, total, createdate, shipdate) values(?,?,?,NOW(), DATE_ADD(NOW(), INTERVAL ? HOUR))", Statement.RETURN_GENERATED_KEYS);
+        //PreparedStatement ps = conn.prepareStatement("insert into orders(status, cid, total, createdate, shipdate) values(?,?,?,NOW(), DATE_ADD(NOW(), INTERVAL ? HOUR))", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = conn.prepareStatement("insert into orders(status, cid, total, createdate) values(?,?,?,NOW())", Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, order.getStatus());
         ps.setInt(2, order.getCid());
         ps.setFloat(3, order.getTotal());
-        ps.setInt(4, diff);
+        //ps.setInt(4, diff);
         int rows = ps.executeUpdate();
         if (rows == 1) {
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
+            ps = conn.prepareStatement("update orders set shipdate = DATE_ADD(NOW(), INTERVAL ? HOUR) where oid = ?");
+            ps.setInt(1, diff);
+            ps.setInt(2, rs.getInt(1));
+            ps.executeUpdate();
             return rs.getInt(1);
         }
         throw new Exception("order id mismatch");
