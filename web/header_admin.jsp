@@ -16,7 +16,7 @@
                             <a class="nav-link" href="product_display">View Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="all_orders.jsp">View Orders</a>
+                            <a class="nav-link" href="order_display">View Orders</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="admin_logout"><i class="fas fa-sign-out-alt"></i></a>

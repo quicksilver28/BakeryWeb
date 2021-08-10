@@ -29,6 +29,15 @@ public class Order {
         shipdate = null;
     }
     
+    public Order(int oid, int cid, int status, float total) {
+        this.oid = oid;
+        this.cid = cid;
+        this.status = status;
+        this.total = total;
+        createdate = null;
+        shipdate = null;
+    }
+    
     public Order(int cid, int status, float total) {
         this.oid = 0;
         this.cid = cid;
@@ -107,6 +116,7 @@ public class Order {
     
     @Override
     public String toString(){
-        return this.getStrDateSQL(new Date());//+""+this.getShipdate();
+        return oid+" "+createdate+""+shipdate+" "+status+" "+cid+" "+total+" ";
+        //return this.getStrDateSQL(new Date());//+""+this.getShipdate();
     }
 }

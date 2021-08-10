@@ -5,12 +5,21 @@
  */
 package bakeryjava.dao;
 
+import bakeryjava.bean.Order;
+import bakeryjava.helper.DBConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -18,69 +27,53 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class OrderDisplay extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet OrderDisplay</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet OrderDisplay at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        List<Order> order_list = new ArrayList<>();
+        String select_query = "select * from orders";
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        try {
+            out.println("Idhar error");
+            conn = DBConn.getcon();
+            out.println("Idhar theek");
+            statement = conn.createStatement();
+            rs = statement.executeQuery(select_query);
+            while (rs.next()) {
+                out.println("ya???");
+                Order order = new Order();
+                order.setOid(rs.getInt(1));
+                order.setCreateDate(rs.getDate(2));
+                order.setShipDate(rs.getDate(3));
+                order.setStatus(rs.getInt(4));
+                order.setCid(rs.getInt(5));
+                order.setTotal(rs.getFloat(6));
+                //out.println(order);
+                //out.println(product.getPname());
+                order_list.add(order);
+            }
+            if (order_list == null) {
+                out.println("Khali");
+            } else {
+                HttpSession session = request.getSession();
+                //request.setAttribute("products", product_list);
+                request.setAttribute("orders", order_list);
+                RequestDispatcher dispatcher = null;
+                if (session != null && session.getAttribute("admin") != null) {
+                    dispatcher = request.getRequestDispatcher("all_orders.jsp");
+                } else {
+                    dispatcher = request.getRequestDispatcher("add_product.jsp");
+                }
+                //response.sendRedirect(request.getContextPath()+"/all_products.jsp?products="+product_list);
+                dispatcher.forward(request, response);
+            }
+        } catch (Exception e) {
+            out.println("Exception occurs hmmm");
+            out.println(e);
+        }
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
