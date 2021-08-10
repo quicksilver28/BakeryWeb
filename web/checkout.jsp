@@ -17,6 +17,24 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <script>
+            function getDeliveryDetails() {
+                if (document.getElementById('deliveryradio2').checked) {
+                    select = document.getElementById('deliverytime');
+                    select.disabled = false;
+                    var d = new Date();
+                    var n = d.getHours() + 1;
+                    for (let i = n + 2; i <= 24; i++) {
+                        var option = document.createElement("option");
+                        option.value = i - n;
+                        option.text = i + " hours";
+                        select.appendChild(option);
+                    }
+                } else {
+                    document.getElementById('deliverytime').disabled = true;
+                }
+            }
+        </script>
     </head>
     <body>
         <%@include file="header.jsp"%>
@@ -51,6 +69,31 @@
                         <div class="form-group">
                             <label for="zipcode">Pin Code</label>
                             <input type="text" class="form-control" id="zipcode" name="zipcode" pattern="[0-9]{6}" required>
+                        </div>
+                        <fieldset>
+                            <legend>Choose Delivery Method:</legend>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="delivery_method" id="deliveryradio1" value="1" onclick="getDeliveryDetails()" checked>
+                                <label class="form-check-label" for="deliveryradio1">
+                                    Pick up
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="delivery_method" id="deliveryradio2" value="2" onclick="getDeliveryDetails()">
+                                <label class="form-check-label" for="deliveryradio2">
+                                    Scheduled Delivery
+                                </label>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <div class="form-group">
+                            <label class="form-check-label" for="deliverytime">
+                                Delivery Time:
+                            </label>
+                            <!--<input type="time" id="deliverytime" name="delivery_time" max="20:00" onclick="setMinTime()" disabled required>-->
+                            <select class="form-select" id="deliverytime" name="deliverytime" disabled>
+                                <option selected>Choose delivery time:</option>
+                            </select>
                         </div>
                         <br>
                         <button type="submit" name="action" value="signin" class="btn btn-primary mx-auto d-block">Place Order</button>

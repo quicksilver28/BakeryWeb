@@ -30,7 +30,7 @@
         <h4>Redirecting to Products....</h4>
         <script>
          setTimeout(function(){
-            window.location.href = '<%=request.getContextPath()%>/ProductDisplay';
+            window.location.href = '<%=request.getContextPath()%>/prodcut_display';
          }, 5000);
       </script>
         <% }%>

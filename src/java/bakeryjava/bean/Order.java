@@ -1,6 +1,5 @@
 package bakeryjava.bean;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,13 +29,13 @@ public class Order {
         shipdate = null;
     }
     
-    public Order(int cid, int status, float total, String createdate) {
+    public Order(int cid, int status, float total) {
         this.oid = 0;
         this.cid = cid;
         this.status = status;
         this.total = total;
-        this.createdate = createdate;
-        shipdate = null;
+        this.createdate = null;
+        this.shipdate = null;
     }
     
     public Order(int cid, int status, float total, String createdate, String shipdate) {
@@ -104,5 +103,10 @@ public class Order {
 
     public void setShipDate(Date shipdate){
         this.shipdate = getStrDateSQL(shipdate);
+    }
+    
+    @Override
+    public String toString(){
+        return this.getStrDateSQL(new Date());//+""+this.getShipdate();
     }
 }
