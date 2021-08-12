@@ -15,6 +15,14 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <script type='text/javascript'>
+            function deliverOrder(oid) {
+                var choice = confirm("Are you ready to deliver this order?");
+                if (choice === true) {
+                    window.open("OrderUpdate?oid=" + oid, "_self");
+                }
+            }
+        </script>
     </head>
     <body style="background-image: url('resources/images/bakedbg.jpg');">
         <%
@@ -28,7 +36,14 @@
         <%@include file="header_admin.jsp"%>
         <div class="container-fluid padding" style="margin-top: 30px;">
             <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="float-right"><a href="order_display">All</a> | <a href="order_display?status=1">Pending</a>
+                    </div>
+                </div>
                 <div class="col-lg-8" style="background-color:#fff; opacity:0.8;">
+                    <%
+                        ArrayList<Order> order_list = (ArrayList) request.getAttribute("orders");
+                        if (order_list != null && order_list.size() != 0) {%>
                     <table class="table">
                         <thead>
                             <tr>
@@ -39,22 +54,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% ArrayList<Order> order_list = (ArrayList) request.getAttribute("orders");
-                                if (order_list != null) {
-                                    Iterator<Order> itr = order_list.iterator();
-                                    while (itr.hasNext()) {
-                                        Order order = itr.next();
+                            <%
+                                String status = request.getParameter("status");
+                                if (status == null) {
+                                    status = "2";
+                                }
+                                Iterator<Order> itr = order_list.iterator();
+                                while (itr.hasNext()) {
+                                    Order order = itr.next();
+                                    if (status.equals("1")) {
+                                        if (order.getStatus() == 1) {
                             %>
                             <tr>
                                 <th scope="row"><%=order.getOid()%></th>
                                 <td><%=order.getCreatedate()%></td>
                                 <td><%=order.getShipdate()%></td>
-                                <td><%=order.getStatus()%></td>
+                                <td><button class="btn" style="background-color:#fff;" onclick="deliverOrder(<%=String.valueOf(order.getOid())%>)"><i class="fas fa-shipping-fast"></i></button></td>
                             </tr>
                             <%}
-                            }%>
+                            } else {
+                            %>
+                            <tr>
+                                <th scope="row"><%=order.getOid()%></th>
+                                <td><%=order.getCreatedate()%></td>
+                                <td><%=order.getShipdate()%></td>
+                                <% if(order.getStatus()==1) {%>
+                                <td><button class="btn" style="background-color:#fff;" onclick="deliverOrder(<%=String.valueOf(order.getOid())%>)"><i class="fas fa-shipping-fast"></i></button></td>
+                                <%} else {%>
+                                <td><button class="btn" style="background-color:#fff;" disabled><i class="fas fa-shipping-fast"></i></button></td>
+                                <%}%>
+                            </tr>
+                            <%}
+                                    }
+                            %>
                         </tbody>
                     </table>
+                        <%} else {%>
+                        <h4>NO ORDER HISTORY</h4>
+                        <% } %>
                 </div>
             </div>
         </div>

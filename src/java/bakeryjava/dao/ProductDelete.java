@@ -39,7 +39,7 @@ public class ProductDelete extends HttpServlet{
             if(row == 1){
                 deleteImageFile(filename);
             }
-            response.sendRedirect(request.getContextPath() + "/ProductDisplay");
+            response.sendRedirect(request.getContextPath() + "/product_display");
         }
         catch(Exception e){
             out.println(e);
